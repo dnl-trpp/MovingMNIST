@@ -136,8 +136,11 @@ class MovingMNIST(data.Dataset):
             np.load(os.path.join(self.root, self.raw_folder, 'mnist_test_seq.npy')).swapaxes(0, 1)[-self.split:]
         )
 
-        training_set = torch.unsqueeze(training_set,dim=2)
+        training_set = torch.unsqueeze(training_set,dim=2) #UNsqueeze and add channel dim
         test_set = torch.unsqueeze(test_set,dim=2)
+
+        training_set = training_set.float() #Convert to float tensor (Original is in Int)
+        test_set = test_set.float()
 
         with open(os.path.join(self.root, self.processed_folder, self.training_file), 'wb') as f:
             torch.save(training_set, f)
