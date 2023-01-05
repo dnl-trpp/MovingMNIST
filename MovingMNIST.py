@@ -136,6 +136,9 @@ class MovingMNIST(data.Dataset):
             np.load(os.path.join(self.root, self.raw_folder, 'mnist_test_seq.npy')).swapaxes(0, 1)[-self.split:]
         )
 
+        training_set = torch.unsqueeze(training_set,dim=2)
+        test_set = torch.unsqueeze(test_set,dim=2)
+
         with open(os.path.join(self.root, self.processed_folder, self.training_file), 'wb') as f:
             torch.save(training_set, f)
         with open(os.path.join(self.root, self.processed_folder, self.test_file), 'wb') as f:
