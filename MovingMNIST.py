@@ -85,7 +85,7 @@ class MovingMNIST(data.Dataset):
             target = _transform_time(target)
 
         seq = torch.unsqueeze(seq,dim=2) #UNsqueeze and add channel dim
-        test_set = torch.unsqueeze(test_set,dim=2)
+        target = torch.unsqueeze(target,dim=2)
 
         return seq, target
 
