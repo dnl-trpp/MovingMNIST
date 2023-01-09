@@ -70,7 +70,7 @@ class MovingMNIST(data.Dataset):
         def _transform_time(data):
             new_data = None
             for i in range(data.size(0)):
-                img = Image.fromarray(data[i][0].numpy(), mode='L')
+                img = Image.fromarray(data[i].numpy(), mode='L')
                 new_data = self.transform(img) if new_data is None else torch.cat([self.transform(img), new_data], dim=0)
             return new_data
 
@@ -83,6 +83,9 @@ class MovingMNIST(data.Dataset):
             seq = _transform_time(seq)
         if self.target_transform is not None:
             target = _transform_time(target)
+
+        seq = torch.unsqueeze(seq,dim=2) #UNsqueeze and add channel dim
+        test_set = torch.unsqueeze(test_set,dim=2)
 
         return seq, target
 
@@ -136,8 +139,6 @@ class MovingMNIST(data.Dataset):
             np.load(os.path.join(self.root, self.raw_folder, 'mnist_test_seq.npy')).swapaxes(0, 1)[-self.split:]
         )
 
-        training_set = torch.unsqueeze(training_set,dim=2) #UNsqueeze and add channel dim
-        test_set = torch.unsqueeze(test_set,dim=2)
 
         training_set = training_set.float() #Convert to float tensor (Original is in Int)
         test_set = test_set.float()
