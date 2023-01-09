@@ -140,8 +140,8 @@ class MovingMNIST(data.Dataset):
         )
 
 
-        training_set = training_set.float() #Convert to float tensor (Original is in Int)
-        test_set = test_set.float()
+        #training_set = training_set.float() #Convert to float tensor (Original is in Int)
+        #test_set = test_set.float()
 
         with open(os.path.join(self.root, self.processed_folder, self.training_file), 'wb') as f:
             torch.save(training_set, f)
