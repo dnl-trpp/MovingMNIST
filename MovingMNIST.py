@@ -84,8 +84,8 @@ class MovingMNIST(data.Dataset):
         if self.target_transform is not None:
             target = _transform_time(target)
 
-        seq = torch.unsqueeze(seq,dim=2) #UNsqueeze and add channel dim
-        target = torch.unsqueeze(target,dim=2)
+        seq = torch.unsqueeze(seq,dim=1) #UNsqueeze and add channel dim
+        target = torch.unsqueeze(target,dim=1)
 
         return seq, target
 
