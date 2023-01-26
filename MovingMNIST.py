@@ -71,7 +71,14 @@ class MovingMNIST(data.Dataset):
             new_data = None
             for i in range(data.size(0)):
                 img = Image.fromarray(data[i].numpy(), mode='L')
-                new_data = self.transform(img) if new_data is None else torch.cat([self.transform(img), new_data], dim=0)
+                new_data = self.transform(img) if new_data is None else torch.cat(new_data,[self.transform(img)], dim=0)
+            return new_data
+
+        def _transform_time_target(data):
+            new_data = None
+            for i in range(data.size(0)):
+                img = Image.fromarray(data[i].numpy(), mode='L')
+                new_data = self.target_transform(img) if new_data is None else torch.cat(new_data,[self.target_transform(img)], dim=0)
             return new_data
 
         if self.train:
@@ -82,7 +89,7 @@ class MovingMNIST(data.Dataset):
         if self.transform is not None:
             seq = _transform_time(seq)
         if self.target_transform is not None:
-            target = _transform_time(target)
+            target = _transform_time_target(target)
 
         seq = torch.unsqueeze(seq,dim=1) #UNsqueeze and add channel dim
         target = torch.unsqueeze(target,dim=1)
